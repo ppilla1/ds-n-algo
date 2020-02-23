@@ -18,12 +18,15 @@ import lombok.extern.slf4j.Slf4j;
  * ---------
  * | | | | |
  *
- * Let value 2 represents Black , 1 represents White, 0 represents Empty space and -1 Visited
  */
 @Slf4j
 public class GameOfGo {
-    private final int[][] board;
+    private final CheckerType[][] board;
+    private final CheckerType piece;
 
+    static enum CheckerType{
+        BLACK,WHITE,VISITED,EMPTY;
+    }
     static class Coordinate{
         final int x;
         final int y;
@@ -33,60 +36,50 @@ public class GameOfGo {
             this.y = yValue;
         }
     }
-    public GameOfGo(int[][] problemBoard){
+    public GameOfGo(CheckerType[][] problemBoard, CheckerType checkerType){
         this.board = problemBoard;
+        this.piece= checkerType;
     }
 
-    public boolean isConquered(Coordinate problemCoordinate, Coordinate solutionCoordinate){
+    public boolean isConquered(Coordinate solutionCoordinate){
         boolean result = false;
 
-        log.info("Value of problem space {}",board[problemCoordinate.x][problemCoordinate.y]);
-
-        if (board[problemCoordinate.x][problemCoordinate.y] != 2 && board[problemCoordinate.x][problemCoordinate.y] != -1){
-            throw new IllegalStateException("Only can check state of Black piece");
-        }
         // Happy case
         if ((solutionCoordinate.x >=0 && solutionCoordinate.x < board.length) &&
             (solutionCoordinate.y >=0 && solutionCoordinate.y < board[0].length) &&
-            board[solutionCoordinate.x][solutionCoordinate.y] == 0){
+            board[solutionCoordinate.x][solutionCoordinate.y] == CheckerType.EMPTY){
             result = false;
         }else if (
                         (solutionCoordinate.x >= board.length || solutionCoordinate.x < 0) ||
                         (solutionCoordinate.y >= board[0].length || solutionCoordinate.y < 0) ||
-                         board[solutionCoordinate.x][solutionCoordinate.y] == 1 ||
-                         board[solutionCoordinate.x][solutionCoordinate.y] == -1
+                        (board[solutionCoordinate.x][solutionCoordinate.y] != piece && board[solutionCoordinate.x][solutionCoordinate.y] != CheckerType.VISITED)||
+                         board[solutionCoordinate.x][solutionCoordinate.y] == CheckerType.VISITED
         ){
             result = true;
         }else {
 
+            board[solutionCoordinate.x][solutionCoordinate.y]=CheckerType.VISITED;
+
             // Check UP
-            Coordinate newProblem = new Coordinate(solutionCoordinate.x, solutionCoordinate.y);
             Coordinate newSolution = new Coordinate(solutionCoordinate.x - 1, solutionCoordinate.y);
-            board[newProblem.x][newProblem.y]=-1;
-            result = isConquered(newProblem, newSolution);
+            result = isConquered(newSolution);
 
             // Check DOWN
             if (result){
-                newProblem = new Coordinate(solutionCoordinate.x, solutionCoordinate.y);
                 newSolution = new Coordinate(solutionCoordinate.x + 1, solutionCoordinate.y);
-                board[newProblem.x][newProblem.y]=-1;
-                result = isConquered(newProblem, newSolution);
+                result = isConquered(newSolution);
             }
 
             // Check LEFT
             if (result){
-                newProblem = new Coordinate(solutionCoordinate.x, solutionCoordinate.y);
                 newSolution = new Coordinate(solutionCoordinate.x , solutionCoordinate.y - 1);
-                board[newProblem.x][newProblem.y]=-1;
-                result = isConquered(newProblem, newSolution);
+                result = isConquered(newSolution);
             }
 
             // Check RIGHT
             if (result){
-                newProblem = new Coordinate(solutionCoordinate.x, solutionCoordinate.y);
                 newSolution = new Coordinate(solutionCoordinate.x , solutionCoordinate.y + 1);
-                board[newProblem.x][newProblem.y]=-1;
-                result = isConquered(newProblem, newSolution);
+                result = isConquered(newSolution);
             }
 
         }

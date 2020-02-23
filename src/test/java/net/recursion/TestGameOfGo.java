@@ -20,13 +20,15 @@ import static org.junit.Assert.*;
  * Let value 2 represents Black , 1 represents White and 0 represents Empty space
  */
 
+import static net.recursion.GameOfGo.CheckerType.*;
+
 @Slf4j
 public class TestGameOfGo {
     private GameOfGo gameOfGo;
 
     @Before
     public void setUp(){
-        gameOfGo = new GameOfGo(new int[][] {{2,1,2,0}, {2,2,1,0}, {1,1,0,0}, {0,0,0,0}});
+        gameOfGo = new GameOfGo(new GameOfGo.CheckerType[][]{{BLACK,WHITE,BLACK,EMPTY}, {BLACK,BLACK,WHITE,EMPTY}, {WHITE,WHITE,EMPTY,EMPTY}, {EMPTY,EMPTY,EMPTY,EMPTY}}, BLACK);
     }
 
     @After
@@ -36,37 +38,31 @@ public class TestGameOfGo {
 
     @Test
     public void testCornerBlackIsConquired(){
-        assertTrue(gameOfGo.isConquered(new GameOfGo.Coordinate(0, 0), new GameOfGo.Coordinate(0, 0)));
+        assertTrue(gameOfGo.isConquered(new GameOfGo.Coordinate(0, 0)));
 
-        assertTrue(gameOfGo.isConquered(new GameOfGo.Coordinate(1, 0), new GameOfGo.Coordinate(1, 0)));
+        assertTrue(gameOfGo.isConquered(new GameOfGo.Coordinate(1, 0)));
     }
 
     @Test
     public void testInsideBlackIsConquired(){
-        assertTrue(gameOfGo.isConquered(new GameOfGo.Coordinate(1, 1), new GameOfGo.Coordinate(1, 1)));
+        assertTrue(gameOfGo.isConquered(new GameOfGo.Coordinate(1, 1)));
     }
 
     @Test
     public void testOuterBlackIsConquired(){
-        assertTrue(!gameOfGo.isConquered(new GameOfGo.Coordinate(0, 2), new GameOfGo.Coordinate(0, 2)));
+        assertTrue(!gameOfGo.isConquered(new GameOfGo.Coordinate(0, 2)));
     }
 
     @Test
     public void testOuterWhiteIsConquired(){
-        try {
-            boolean result = gameOfGo.isConquered(new GameOfGo.Coordinate(1, 2), new GameOfGo.Coordinate(1, 2));
-        }catch (IllegalStateException e){
-            assertTrue(true);
-        }
+        gameOfGo = new GameOfGo(new GameOfGo.CheckerType[][]{{BLACK,WHITE,BLACK,EMPTY}, {BLACK,BLACK,WHITE,EMPTY}, {WHITE,WHITE,EMPTY,EMPTY}, {EMPTY,EMPTY,EMPTY,EMPTY}}, WHITE);
+        assertTrue(!gameOfGo.isConquered(new GameOfGo.Coordinate(1, 2)));
     }
 
     @Test
     public void testInnerWhiteIsConquired(){
-        try {
-            boolean result = gameOfGo.isConquered(new GameOfGo.Coordinate(0, 1), new GameOfGo.Coordinate(0, 1));
-        }catch (IllegalStateException e){
-            assertTrue(true);
-        }
+        gameOfGo = new GameOfGo(new GameOfGo.CheckerType[][]{{BLACK,WHITE,BLACK,EMPTY}, {BLACK,BLACK,WHITE,EMPTY}, {WHITE,WHITE,EMPTY,EMPTY}, {EMPTY,EMPTY,EMPTY,EMPTY}}, WHITE);
+        assertTrue(gameOfGo.isConquered(new GameOfGo.Coordinate(0, 1)));
     }
 
 }
