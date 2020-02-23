@@ -48,7 +48,25 @@ public class TestGameOfGo {
 
     @Test
     public void testOuterBlackIsConquired(){
-        assertFalse(gameOfGo.isConquered(new GameOfGo.Coordinate(0, 2), new GameOfGo.Coordinate(0, 2)));
+        assertTrue(!gameOfGo.isConquered(new GameOfGo.Coordinate(0, 2), new GameOfGo.Coordinate(0, 2)));
+    }
+
+    @Test
+    public void testOuterWhiteIsConquired(){
+        try {
+            boolean result = gameOfGo.isConquered(new GameOfGo.Coordinate(1, 2), new GameOfGo.Coordinate(1, 2));
+        }catch (IllegalStateException e){
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void testInnerWhiteIsConquired(){
+        try {
+            boolean result = gameOfGo.isConquered(new GameOfGo.Coordinate(0, 1), new GameOfGo.Coordinate(0, 1));
+        }catch (IllegalStateException e){
+            assertTrue(true);
+        }
     }
 
 }

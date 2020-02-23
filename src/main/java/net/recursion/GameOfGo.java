@@ -1,5 +1,7 @@
 package net.recursion;
 
+import lombok.extern.slf4j.Slf4j;
+
 /*
  * Find if a given Black is conquered in the board game Go.
  * 1. Black and White play alternately.
@@ -18,6 +20,7 @@ package net.recursion;
  *
  * Let value 2 represents Black , 1 represents White, 0 represents Empty space and -1 Visited
  */
+@Slf4j
 public class GameOfGo {
     private final int[][] board;
 
@@ -37,6 +40,11 @@ public class GameOfGo {
     public boolean isConquered(Coordinate problemCoordinate, Coordinate solutionCoordinate){
         boolean result = false;
 
+        log.info("Value of problem space {}",board[problemCoordinate.x][problemCoordinate.y]);
+
+        if (board[problemCoordinate.x][problemCoordinate.y] != 2 && board[problemCoordinate.x][problemCoordinate.y] != -1){
+            throw new IllegalStateException("Only can check state of Black piece");
+        }
         // Happy case
         if ((solutionCoordinate.x >=0 && solutionCoordinate.x < board.length) &&
             (solutionCoordinate.y >=0 && solutionCoordinate.y < board[0].length) &&
