@@ -1,5 +1,7 @@
 # Top-Down #
 
+Note : Use implicit java method call stack or ArrayDeque<E> as explicit stack cast to Deque<E> interface 
+
 recursion(problem-at-this-point, solution-so-far){
     1. if (problem-at-this-point is trivial or empty)
         process solution-so-far
@@ -17,6 +19,8 @@ main(){
 }
 
 # Bottom-Up#
+
+Note: Use explicit queue ArrayDeque<E> cast to Deque<E> interface with methods offer(e) [as enqueue method] and poll() [as dequeue method] 
 
 solution recursion(problem-at-this-point){
     1. if (problem-at-this-point is trivial or empty)
