@@ -27,7 +27,7 @@
    
    .e.g: N=4, c[]={4,3,9,5}, p[]={1,2,10,8}
    
-2. Find if given a black's postion, it is conquered in the board game Go.
+2. Find if given a black's position, it is conquered in the board game Go.
    Rules:
    a. Black and White play alternatively
    b. Black is conquered if it is (and all its neighbouring blacks, if any, are also) surrounded by whites or boarder of the board

@@ -16,6 +16,10 @@ public class TestStackAndQueue {
     public void testArrayDequeAsStack(){
         Deque<String> explicitStack = new ArrayDeque<>();
 
+        int charA = 'a';
+        char aChar = (char)charA;
+
+        log.info("ASCII {} , charater {}", charA, aChar);
         try {
             explicitStack.pop();
             assertTrue(false);
